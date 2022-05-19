@@ -1,5 +1,6 @@
-import React, {useContext, useState} from 'react';
-//Input 컨포넌트의 변화하는 값을 관리하기 위해서 useState를 이용해준다.
+import React, {useContext, useState, useRef} from 'react';
+{/*Input 컨포넌트의 변화하는 값을 관리하기 위해서 useState를 이용해준다.
+useRef를 이용하여 onSubmitEditing을 작성하기위해 useRef를 사용해준다.*/}
 import styled, {ThemeContext} from 'styled-components/native';
 import {Button, Image, Input} from '../components'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -26,7 +27,8 @@ const Signin = ({navigation}) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const refPassword = useRef(null);
+    const refPassword = useRef(null);
+    //password의 위치만 알면되므로 refPassword라는 변수를 만들어주었다.
     
     return (
      <Container insets={insets}>
@@ -36,8 +38,11 @@ const Signin = ({navigation}) => {
         placeholder="Email" 
         returnKeyType="next"
         value={email}
-        onChangeText={setEmail} />
+        onChangeText={setEmail} 
+        onSubmitEditing={() => refPassword.current.focus()}
+        />
         <Input 
+        ref={refPassword}
         label="password" 
         placeholder="password"  
         returnKeyType="done"

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, forwardRef} from 'react';
 //포커스 상태를 관리하기 위해서 useState를 사용했다.
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
@@ -34,7 +34,9 @@ const StyledInput = styled.TextInput.attrs(({theme}) => ({
     border-radius: 4px;
 `;
 
-const Input = ({
+const Input = forwardRef (
+(
+    {
     //Input 컨포넌트는 props로 
     label,
     value,
@@ -46,7 +48,9 @@ const Input = ({
     returnKeyType, //return key의 모양을 결정한다. ex) done, go, next, search, send 
     //안드로이드 전용 => (none, previous)가 있고, ios 전용 => (default, emergency-call, google, join, route, yahoo)등이 있다. 
     maxLength, //너무 긴 text가 입력되지 않도록 하는 코드이다.
-}) => {
+}, 
+ref
+) => {
     const [isFocused, setIsFocused] = useState(false);
     //포커스된 상태와 포커스되지 않은 상태를 구분하기위해서 사용한 코드이다.
     //포커스 상태를 관리하기 위해서 useState를 가져오고, isFocused라는 상태변수를 만들었다.
@@ -54,8 +58,9 @@ const Input = ({
     return ( //props로 전달된 값들을 이용하여 label과 input 컨포넌트에 각각 설정해주었다.
         <Container>
         <Label isFocused={isFocused}>{label}</Label>
-        //isFocused 상태변수를 Label 컨포넌트로 전달하여 상태에 따라 스타일이 다르게 나타나도록 하기위해 수정해주었다.
+        {/*isFocused 상태변수를 Label 컨포넌트로 전달하여 상태에 따라 스타일이 다르게 나타나도록 하기위해 수정해주었다.*/}
         <StyledInput
+        ref={ref}
         value={value}
         onChangeText={onChangeText}
         onSubmitEditing={onSubmitEditing}
@@ -77,7 +82,8 @@ const Input = ({
         />
         </Container>
     );
-};
+}
+);
 
 Input.defaultProps = {
     onBlur: ()=>{},
