@@ -57,6 +57,7 @@ const Input = ({
         maxLength={maxLength}
         autoCapitalize="none" //자동 대문자 기능이나, 오타수정기능에 관련된 설정도 함께해주었다.
         autoCorrect={false}
+        textContentType="none" //ios에서 이메일이 나타내는 부분을 없애기 위해서 사용했다.
         />
         </Container>
     )
