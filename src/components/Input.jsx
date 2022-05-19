@@ -8,7 +8,7 @@ width: 100%;
 margin: 10px 0;
 `;
 
-const Label = styled.View` //Label 컨포넌트도 작성해주었다.
+const Label = styled.Text` //Label 컨포넌트도 작성해주었다.
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 6px;
