@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {ThemeContext} from 'styled-components/native'
 import { createStackNavigator } from '@react-navigation/stack';
-import { Signin,Signup } from '../screens';
+import { Signin, Signup, Profile } from '../screens';
 import {MaterialIcons} from '@expo/vector-icons'; // 왼쪽 버튼을 동일하게 나타나기 위해 MaterialIcons 컨포넌트를 가져온다.
 
 const Stack = createStackNavigator();
@@ -10,7 +10,11 @@ const Auth = () => {
     const theme = useContext(ThemeContext);
 
     return (
-    <Stack.Navigator>
+    <Stack.Navigator
+    screenOptions={{
+        cardStyle: { backgroundColor: theme.background},
+    }}
+    >
         <Stack.Screen 
         name="Signin" 
         component={Signin} 
@@ -32,6 +36,10 @@ const Auth = () => {
                 />
             ),
         }}
+        />
+        <Stack.Screen 
+        name="Profile" 
+        component={Profile} 
         />
     </Stack.Navigator>
     );

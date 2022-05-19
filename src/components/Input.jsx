@@ -1,5 +1,6 @@
 import React, {useState, forwardRef} from 'react';
 //포커스 상태를 관리하기 위해서 useState를 사용했다.
+//Signin.jsx에서 useRef만 사용하였더니 오류가 나와서 forwardRef를 사용해주었다.
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 
@@ -22,7 +23,7 @@ const StyledInput = styled.TextInput.attrs(({theme}) => ({
     //attrs객체는 구성요소가 수신하는 props를 수신하는 기능을 취한다. 반환받은 결과 props에도 병합이된다.
     //스타일이 지정된 구성 요소를 래핑할 때.attrs가장 안쪽에 스타일이 지정된 구성 요소에서 가장 바깥에 스타일이 지정된 구성 요소에 적용됩니다.
     //이렇게 하면 각 래퍼가 중첩된 사용 을 재정의 할 수 있습니다..attrs, 스타일시트에서 나중에 정의된 CSS 속성이 이전 선언을 재정의하는 방식과 유사합니다.
-    placeholderTextColor: theme.inputPlaceholder
+    placeholderTextColor: theme.inputPlaceholder,
 }))`
     background-color: ${({theme}) => theme.inputBackground};
     //Input 컨포넌트의 배경색과 그외의 다른색들도 theme의 정의해놓은 색을 이용하였다.
@@ -34,7 +35,7 @@ const StyledInput = styled.TextInput.attrs(({theme}) => ({
     border-radius: 4px;
 `;
 
-const Input = forwardRef (
+const Input = forwardRef ( // Input부분에 forwardRef를 전체적으로 넣어주면 된다.
 (
     {
     //Input 컨포넌트는 props로 
@@ -48,8 +49,9 @@ const Input = forwardRef (
     returnKeyType, //return key의 모양을 결정한다. ex) done, go, next, search, send 
     //안드로이드 전용 => (none, previous)가 있고, ios 전용 => (default, emergency-call, google, join, route, yahoo)등이 있다. 
     maxLength, //너무 긴 text가 입력되지 않도록 하는 코드이다.
+    isPassword,
 }, 
-ref
+ref //주의해야할 점은 ref는 함수의 두번째 파라미터로 전달된다는 점이다.
 ) => {
     const [isFocused, setIsFocused] = useState(false);
     //포커스된 상태와 포커스되지 않은 상태를 구분하기위해서 사용한 코드이다.
@@ -61,6 +63,7 @@ ref
         {/*isFocused 상태변수를 Label 컨포넌트로 전달하여 상태에 따라 스타일이 다르게 나타나도록 하기위해 수정해주었다.*/}
         <StyledInput
         ref={ref}
+        //전달된 ref를 이용하여 input 컨포넌트에 ref로 설정하였다.
         value={value}
         onChangeText={onChangeText}
         onSubmitEditing={onSubmitEditing}
@@ -79,6 +82,8 @@ ref
         //isFocused 상태변수를 StyledInput 컨포넌트로 전달하여 상태에 따라 스타일이 다르게 나타나도록 하기위해 수정해주었다.
         onFocus={()=>setIsFocused(true)}
         //isFocused의 값은 onFocus가 호출이 되었을때 변경되도록 수정해주었다.
+        secureTextEntry={isPassword}
+        //입력되는 비밀번호가 노출되는 문제를 해결하기위해 secureTextEntry라는 값을 설정해주었다.
         />
         </Container>
     );
@@ -100,6 +105,7 @@ Input.propTypes = { //props로 전달되는 값들은 PropTypes를 이용하여 
     placeholder: PropTypes.string,
     returnKeyType: PropTypes.oneOf(['done', 'next']), //returnKeyType은 string이긴 하지만, oneOf를 이용하여 done이나 next중에 하나만 허용하기로 한다.
     maxLength: PropTypes.number,
+    isPassword: PropTypes.bool,
 };
 
 export default Input;

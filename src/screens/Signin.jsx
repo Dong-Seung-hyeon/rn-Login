@@ -5,6 +5,7 @@ import styled, {ThemeContext} from 'styled-components/native';
 import {Button, Image, Input} from '../components'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 //헤더라인이 없으면 노치디자인에서 문제가 발생하므로 노치디자인을 해결하는 코드이다.
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const Container = styled.View`
     flex: 1;
@@ -30,7 +31,14 @@ const Signin = ({navigation}) => {
     const refPassword = useRef(null);
     //password의 위치만 알면되므로 refPassword라는 변수를 만들어주었다.
     
+    const _handleSigninBtnPress = () => {
+        /*password Input 컨포넌트에 onSubmitEditing과 signin 버튼에서 호출되는 onPress가 
+        같은함수를 바라보도록 handleSigninBtnPress라는 함수를 만들어서 적용해주었다.*/
+        console.log('signin');
+    }
+
     return (
+    <KeyboardAwareScrollView extraScrollHeight={30} contentContainerStyle={{flex:1}}>
      <Container insets={insets}>
         <Image url={Icon}/>
         <Input //상태변수와 Input 컨포넌트를 이용하여 value, onChangeText를 설정해준다.
@@ -40,6 +48,7 @@ const Signin = ({navigation}) => {
         value={email}
         onChangeText={setEmail} 
         onSubmitEditing={() => refPassword.current.focus()}
+        //Email Input에 onSubmitEditing에서 포커스를 이동하는 함수를 작성해주었다.
         />
         <Input 
         ref={refPassword}
@@ -47,8 +56,12 @@ const Signin = ({navigation}) => {
         placeholder="password"  
         returnKeyType="done"
         value={password}
-        onChangeText={setPassword} />
-        <Button title="로그인" onPress ={() => console.log('로그인')} />
+        onChangeText={setPassword}
+        isPassword={true}
+        //password Input 컨포넌트에 isPassword를 입력하면 비밀번호가 특수문자로 나타나게 할 수 있다.
+        onSubmitEditing={_handleSigninBtnPress}
+        />
+        <Button title="로그인" onPress ={_handleSigninBtnPress}/>
         <Button 
         title="회원가입" 
         onPress ={() => navigation.navigate('Signup')} 
@@ -56,6 +69,7 @@ const Signin = ({navigation}) => {
         textStyle={{color: theme.btnTextLink, fontSize:18}}
         />
     </Container>
+    </KeyboardAwareScrollView>
     );
 };
 
