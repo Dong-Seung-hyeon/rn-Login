@@ -76,7 +76,7 @@ const Input = ({
         //isFocused의 값은 onFocus가 호출이 되었을때 변경되도록 수정해주었다.
         />
         </Container>
-    )
+    );
 };
 
 Input.defaultProps = {
