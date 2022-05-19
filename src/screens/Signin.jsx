@@ -6,6 +6,7 @@ import {Button, Image, Input} from '../components'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 //헤더라인이 없으면 노치디자인에서 문제가 발생하므로 노치디자인을 해결하는 코드이다.
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { signin } from '../firebase';
 
 const Container = styled.View`
     flex: 1;
@@ -31,9 +32,15 @@ const Signin = ({navigation}) => {
     const refPassword = useRef(null);
     //password의 위치만 알면되므로 refPassword라는 변수를 만들어주었다.
     
-    const _handleSigninBtnPress = () => {
+    const _handleSigninBtnPress = async () => {
         /*password Input 컨포넌트에 onSubmitEditing과 signin 버튼에서 호출되는 onPress가 
         같은함수를 바라보도록 handleSigninBtnPress라는 함수를 만들어서 적용해주었다.*/
+        try {
+            const user = await signin({email, password});
+            navigation.navigate('Profile', {user});
+        } catch (e) {
+            Alert.alert('로그인 오류발생', e.message);
+        }
         console.log('signin');
     }
 
