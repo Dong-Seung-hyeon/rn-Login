@@ -2,7 +2,7 @@ import React, {useContext, useState, useRef} from 'react';
 {/*Input 컨포넌트의 변화하는 값을 관리하기 위해서 useState를 이용해준다.
 useRef를 이용하여 onSubmitEditing을 작성하기위해 useRef를 사용해준다.*/}
 import styled, {ThemeContext} from 'styled-components/native';
-import {Button, Image, Input} from '../components'
+import {Button, Image, Input, ErrorMessage} from '../components'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 /*헤더라인이 없으면 노치디자인에서 문제가 발생하므로 노치디자인을 해결하는 코드이다.*/
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -32,6 +32,8 @@ const Signin = ({navigation}) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    /* ErrorMessage를 관리할 errorMessage라는 상태변수를 설정해주었다. */
     const refPassword = useRef(null);
     /*password의 위치만 알면되므로 refPassword라는 변수를 만들어주었다.*/
 
@@ -39,6 +41,8 @@ const Signin = ({navigation}) => {
         const changedEmail = removeWhitespace(email);
         setEmail(changedEmail);
         /* 이메일에는 공백이 있을 수 없으니 이메일이 입력될때마다 공백을 제거하고 상태변수를 업데이트 하도록 하였다. */
+        setErrorMessage(validateEmail(changedEmail) ? '' : '이메일을 제대로 입력해주시길 바랍니다!!')
+        /* 이메일이 변경될 때마다 이메일의 유효성을 검사하고 그 결과에따라 에러메시지가 변경되도록 만들었습니다. */
     }
 
     const _handlePasswordChange = password => {
@@ -85,6 +89,7 @@ const Signin = ({navigation}) => {
         /*password Input 컨포넌트에 isPassword를 입력하면 비밀번호가 특수문자로 나타나게 할 수 있다.*/
         onSubmitEditing={_handleSigninBtnPress}
         />
+        <ErrorMessage message={errorMessage} />
         <Button title="로그인" onPress ={_handleSigninBtnPress}/>
         <Button 
         title="회원가입" 
