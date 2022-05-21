@@ -4,6 +4,7 @@ useRef를 이용하여 onSubmitEditing을 작성하기위해 useRef를 사용해
 import styled from 'styled-components/native';
 import {Button, Image, Input} from '../components'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { signup } from '../firebase';
 
 const Container = styled.View`
     flex: 1;
@@ -13,11 +14,12 @@ const Container = styled.View`
     padding: 50px 20px;
 `;
 
-const Signup = () => {
+const Signup = ({navigation}) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
 
     const refEmail = useRef(null);
     /*확인버튼을 통한 포커스 이동을 위해 useRef이용하여 추가로 변수를 추가해주었다.*/
@@ -26,14 +28,19 @@ const Signup = () => {
     const refPasswordConfirm = useRef(null);;
     /*확인버튼을 통한 포커스 이동을 위해 useRef이용하여 추가로 변수를 추가해주었다.*/
     
-    const _handleSignupBtnPress = () => {
+    const _handleSignupBtnPress = async () => {
         /*password Input 컨포넌트에 onSubmitEditing과 signup 버튼에서 호출되는 onPress가 
         같은함수를 바라보도록 handleSignupBtnPress라는 함수를 만들어서 적용해주었다.*/
-        console.log('signup');
-    }
+        try {
+            const user = await signup({name, email, password, phoneNumber});
+            navigation.navigate('Profile', {user})
+        } catch (e) {
+            Alert.alert('회원가입 오류', e.message);
+        }
+    };
 
     return (
-    <KeyboardAwareScrollView extraScrollHeight={30}>
+    <KeyboardAwareScrollView extraScrollHeight={20}>
         {/* 키보드와 Input 컨포넌트가 너무 가깝게 붙어있으므로 extraScrollHeight에 값을 주어 여유공간을 만들어주었다. */}
      <Container>
          <Input 
