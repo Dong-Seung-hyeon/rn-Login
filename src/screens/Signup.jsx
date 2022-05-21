@@ -37,6 +37,7 @@ const Signup = ({navigation}) => {
     /*확인버튼을 통한 포커스 이동을 위해 useRef이용하여 추가로 변수를 추가해주었다.*/
     const refPhoneNumber = useRef(null);
     /*확인버튼을 통한 포커스 이동을 위해 useRef이용하여 추가로 변수를 추가해주었다.*/
+    const refDidMount = useRef(null);
 
     useEffect(() => {
         /* useEffect를 이용하여 상태변수의 변화에따라 disabled 값이 변화하도록 만들었다. */
@@ -47,16 +48,21 @@ const Signup = ({navigation}) => {
     /* disabled 값에 영향을주는 상태변수는 name, email, password, passwordConfirm, phoneNumber, errorMessage가 있습니다. */)
 
     useEffect(() => {
+        if (refDidMount.current) {
         let error = '';
-        if (!name) {error = '이름을 입력해주세요!';}
-        else if (!email) {error = '이메일을 입력해주세요!';}
-        else if (password.length<6) {error = '비밀번호는 최소 6자 이상 입력하셔야합니다.';}
-        else if (password !== passwordConfirm) {error = '비밀번호가 일치하지 않습니다!';}
-        else if (!phoneNumber) {error = '전화번호를 입력해주세요!';}
-        else {
+        if (!name) {error = '이름을 입력해주세요!';
+      } else if (!email) {error = '이메일을 입력해주세요!';
+      } else if (!validateEmail(email)) {error ='이메일형식에 맞도록 입력해주세요.';
+      } else if (password.length<6) {error = '비밀번호는 최소 6자 이상 입력하셔야합니다.';
+      } else if (password !== passwordConfirm) {error = '비밀번호가 일치하지 않습니다!';
+      } else if (!phoneNumber) {error = '전화번호를 입력해주세요!';
+      } else {
             error = '';
         }
-        setErrorMessage(error)
+        setErrorMessage(error);
+    } else {
+        refDidMount.current = true;
+    }
     }, [name, email, password, passwordConfirm, phoneNumber])
     
     const _handleSignupBtnPress = async () => {
