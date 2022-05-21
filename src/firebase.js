@@ -10,3 +10,9 @@ export const signin = async ({ email, password }) => {
   /*반환되는 값중에는 user만 이용하도록 하였다.*/
   return user;
 };
+
+export const signup = async ({ name, email, password, phoneNumber }) => {
+  const { user } = await Auth.createUserWithEmailAndPassword(email, password);
+  await user.updateProfile({ displayName: name, phoneNumber });
+  return user;
+};
