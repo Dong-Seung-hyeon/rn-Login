@@ -4,13 +4,13 @@ const Colors = {
     main: '#F6EBFC',
     grey_0: '#d5d5d5', /* Image의 배경색으로 사용할 색이다.*/
     grey_1: '#a6a6a6',
-    // red: '#e84118',
+    red: '#e84118', /* 에러메시지에 사용할 색을 정의해주었다. */
   };
 
   export const theme = {
     background: Colors.main,
     text: Colors.black,
-    // errorText: Colors.red,
+    errorText: Colors.red,
 
     // Button
   btnBackground: Colors.main,

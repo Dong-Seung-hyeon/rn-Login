@@ -8,6 +8,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { signin } from '../firebase';
 /*signin함수를 이용하여 로그인을 하도록 하였다.*/
+import {validateEmail, removeWhitespace} from '../utils';
+/* untils.jsx의 이메일유효성검사와 공백제거 함수를 불러와 사용 */
 
 const Container = styled.View`
     flex: 1;
@@ -32,6 +34,17 @@ const Signin = ({navigation}) => {
     const [password, setPassword] = useState('');
     const refPassword = useRef(null);
     /*password의 위치만 알면되므로 refPassword라는 변수를 만들어주었다.*/
+
+    const _handleEmailChange = email => {
+        const changedEmail = removeWhitespace(email);
+        setEmail(changedEmail);
+        /* 이메일에는 공백이 있을 수 없으니 이메일이 입력될때마다 공백을 제거하고 상태변수를 업데이트 하도록 하였다. */
+    }
+
+    const _handlePasswordChange = password => {
+        setPassword(removeWhitespace(password));
+        /* 비밀번호에도 공백이 있을 수 없으니 공백을 제거하고 상태변수를 업데이트 하도록 하였다. */
+    }
     
     const _handleSigninBtnPress = async () => {
         /*password Input 컨포넌트에 onSubmitEditing과 signin 버튼에서 호출되는 onPress가 
@@ -57,7 +70,7 @@ const Signin = ({navigation}) => {
         placeholder="Email" 
         returnKeyType="next"
         value={email}
-        onChangeText={setEmail} 
+        onChangeText={_handleEmailChange} 
         onSubmitEditing={() => refPassword.current.focus()}
         /*Email Input에 onSubmitEditing에서 포커스를 이동하는 함수를 작성해주었다.*/
         />
@@ -67,7 +80,7 @@ const Signin = ({navigation}) => {
         placeholder="password"  
         returnKeyType="done"
         value={password}
-        onChangeText={setPassword}
+        onChangeText={_handlePasswordChange}
         isPassword={true}
         /*password Input 컨포넌트에 isPassword를 입력하면 비밀번호가 특수문자로 나타나게 할 수 있다.*/
         onSubmitEditing={_handleSigninBtnPress}
