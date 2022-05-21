@@ -1,4 +1,4 @@
-import React, {useContext, useState, useRef} from 'react';
+import React, {useContext, useState, useRef, useEffect} from 'react';
 {/*Input 컨포넌트의 변화하는 값을 관리하기 위해서 useState를 이용해준다.
 useRef를 이용하여 onSubmitEditing을 작성하기위해 useRef를 사용해준다.*/}
 import styled, {ThemeContext} from 'styled-components/native';
@@ -34,8 +34,17 @@ const Signin = ({navigation}) => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     /* ErrorMessage를 관리할 errorMessage라는 상태변수를 설정해주었다. */
+    const [disabled, setDisabled] = useState(true);
+    /* 처음에는 입력된 값이 없기 때문에 초기값을 true로 설정해주었다. */
     const refPassword = useRef(null);
     /*password의 위치만 알면되므로 refPassword라는 변수를 만들어주었다.*/
+
+    useEffect(() => {
+        /* useEffect를 이용하여 상태변수의 변화에따라 disabled 값이 변화하도록 만들었다. */
+        setDisabled(!(email && password && !errorMessage))
+        /* 이메일이 입력되어있고, 비밀번호가 입력되어있고, 에러메시지가 없어야 버튼이 활성화되도록 만들었습니다.
+        그리고 이 조건일때 disabled가 펄스여야합니다. */
+    }, [email, password, errorMessage]/* disabled 값에 영향을주는 상태변수는 email, password, errorMessage가 있습니다. */)
 
     const _handleEmailChange = email => {
         const changedEmail = removeWhitespace(email);
@@ -90,7 +99,7 @@ const Signin = ({navigation}) => {
         onSubmitEditing={_handleSigninBtnPress}
         />
         <ErrorMessage message={errorMessage} />
-        <Button title="로그인" onPress ={_handleSigninBtnPress}/>
+        <Button title="로그인" onPress ={_handleSigninBtnPress} disabled={disabled}/>
         <Button 
         title="회원가입" 
         onPress ={() => navigation.navigate('Signup')} 
