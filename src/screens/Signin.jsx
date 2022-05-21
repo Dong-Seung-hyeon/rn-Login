@@ -10,6 +10,7 @@ import { signin } from '../firebase';
 /*signin함수를 이용하여 로그인을 하도록 하였다.*/
 import {validateEmail, removeWhitespace} from '../utils';
 /* untils.jsx의 이메일유효성검사와 공백제거 함수를 불러와 사용 */
+import { Alert } from 'react-native';
 
 const Container = styled.View`
     flex: 1;
@@ -68,7 +69,7 @@ const Signin = ({navigation}) => {
             navigation.navigate('Profile', {user});
             /*로그인에 성공하면 프로필화면으로 이동을하도록 하였고, 프로필화면에 사용자의 정보도 함께 전송되도록 설정하였다.*/
         } catch (e) {
-            Alert.alert('로그인 오류발생', e.message);
+            Alert.alert('아이디와 비밀번호를 확인해주십시오.', e.message);
             /*로그인에 실패하면 alert을 이용하여 에러메시지를 출력하도록 하였습니다.*/
         }
         console.log('signin');

@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import {Button, Image, Input} from '../components'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { signup } from '../firebase';
+import { Alert } from 'react-native';
 
 const Container = styled.View`
     flex: 1;
@@ -33,7 +34,8 @@ const Signup = ({navigation}) => {
         같은함수를 바라보도록 handleSignupBtnPress라는 함수를 만들어서 적용해주었다.*/
         try {
             const user = await signup({name, email, password, phoneNumber});
-            navigation.navigate('Profile', {user})
+            Alert.alert('회원가입이 완료되었습니다.')
+            navigation.navigate('Signin')
         } catch (e) {
             Alert.alert('회원가입 오류', e.message);
         }
