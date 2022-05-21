@@ -5,7 +5,9 @@ import styled from 'styled-components/native';
 import {Button, Image, Input} from '../components'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { signup } from '../firebase';
+/* 생성한 signup함수를 불러와서 제작하였다. */
 import { Alert } from 'react-native';
+
 
 const Container = styled.View`
     flex: 1;
@@ -17,16 +19,18 @@ const Container = styled.View`
 
 const Signup = ({navigation}) => {
     const [name, setName] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
 
     const refEmail = useRef(null);
     /*확인버튼을 통한 포커스 이동을 위해 useRef이용하여 추가로 변수를 추가해주었다.*/
     const refPassword = useRef(null);
     /*password의 위치만 알면되므로 refPassword라는 변수를 만들어주었다.*/
     const refPasswordConfirm = useRef(null);;
+    /*확인버튼을 통한 포커스 이동을 위해 useRef이용하여 추가로 변수를 추가해주었다.*/
+    const refPhoneNumber = useRef(null);
     /*확인버튼을 통한 포커스 이동을 위해 useRef이용하여 추가로 변수를 추가해주었다.*/
     
     const _handleSignupBtnPress = async () => {
@@ -79,12 +83,22 @@ const Signup = ({navigation}) => {
         ref={refPasswordConfirm}
         label="Password Confirm" 
         placeholder="Password Confirm"  
-        returnKeyType="done"
+        returnKeyType="next"
         value={passwordConfirm}
         onChangeText={setPasswordConfirm}
         isPassword={true}
         /*password Input 컨포넌트에 isPassword를 입력하면 비밀번호가 특수문자로 나타나게 할 수 있다.*/
+        onSubmitEditing={() => refPhoneNumber.current.focus()}
+        />
+        <Input 
+        ref={refPhoneNumber}
+        label="Phone Number" 
+        placeholder="Phone Number"  
+        returnKeyType="done"
+        value={phoneNumber}
+        onChangeText={setPhoneNumber} 
         onSubmitEditing={_handleSignupBtnPress}
+        /*Email Input에 onSubmitEditing에서 포커스를 이동하는 함수를 작성해주었다.*/
         />
         <Button title="회원가입" onPress ={_handleSignupBtnPress}/>
     </Container>
