@@ -1,12 +1,12 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import * as firebase from 'firebase';
 import config from '../firebase.json';
 
-export const app = initializeApp(config);
-
-const auth = getAuth(app);
+const app = firebase.initializeApp(config);
+const Auth = app.auth();
 
 export const signin = async ({ email, password }) => {
-  const { user } = await signInWithEmailAndPassword(auth, email, password);
+  /*async, await를 이용하고, 파라미터로는 email, password를 가지고있는 객체를 전달받도록 하였다.*/
+  const { user } = await Auth.signInWithEmailAndPassword(email, password);
+  /*반환되는 값중에는 user만 이용하도록 하였다.*/
   return user;
 };

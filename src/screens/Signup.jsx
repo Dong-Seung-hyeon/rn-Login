@@ -20,11 +20,11 @@ const Signup = () => {
     const [passwordConfirm, setPasswordConfirm] = useState('');
 
     const refEmail = useRef(null);
-    //확인버튼을 통한 포커스 이동을 위해 useRef이용하여 추가로 변수를 추가해주었다.
+    /*확인버튼을 통한 포커스 이동을 위해 useRef이용하여 추가로 변수를 추가해주었다.*/
     const refPassword = useRef(null);
-    //password의 위치만 알면되므로 refPassword라는 변수를 만들어주었다.
+    /*password의 위치만 알면되므로 refPassword라는 변수를 만들어주었다.*/
     const refPasswordConfirm = useRef(null);;
-    //확인버튼을 통한 포커스 이동을 위해 useRef이용하여 추가로 변수를 추가해주었다.
+    /*확인버튼을 통한 포커스 이동을 위해 useRef이용하여 추가로 변수를 추가해주었다.*/
     
     const _handleSignupBtnPress = () => {
         /*password Input 컨포넌트에 onSubmitEditing과 signup 버튼에서 호출되는 onPress가 
@@ -43,17 +43,17 @@ const Signup = () => {
         value={name}
         onChangeText={setName} 
         onSubmitEditing={() => refEmail.current.focus()}
-        //Email Input에 onSubmitEditing에서 포커스를 이동하는 함수를 작성해주었다.
+        /*Email Input에 onSubmitEditing에서 포커스를 이동하는 함수를 작성해주었다.*/
         />
-        <Input //상태변수와 Input 컨포넌트를 이용하여 value, onChangeText를 설정해준다.
-        ref={refEmail} //Email Input 컨포넌트에도 포커스가 이동할 수 있어야한다.
+        <Input /*상태변수와 Input 컨포넌트를 이용하여 value, onChangeText를 설정해준다.*/
+        ref={refEmail} /*Email Input 컨포넌트에도 포커스가 이동할 수 있어야한다.*/
         label="Email" 
         placeholder="Email" 
         returnKeyType="next"
         value={email}
         onChangeText={setEmail} 
         onSubmitEditing={() => refPassword.current.focus()}
-        //Email Input에 onSubmitEditing에서 포커스를 이동하는 함수를 작성해주었다.
+        /*Email Input에 onSubmitEditing에서 포커스를 이동하는 함수를 작성해주었다.*/
         />
         <Input 
         ref={refPassword}
@@ -63,7 +63,7 @@ const Signup = () => {
         value={password}
         onChangeText={setPassword}
         isPassword={true}
-        //password Input 컨포넌트에 isPassword를 입력하면 비밀번호가 특수문자로 나타나게 할 수 있다.
+        /*password Input 컨포넌트에 isPassword를 입력하면 비밀번호가 특수문자로 나타나게 할 수 있다.*/
         onSubmitEditing={() => refPasswordConfirm.current.focus()}
         />
         <Input 
@@ -74,7 +74,7 @@ const Signup = () => {
         value={passwordConfirm}
         onChangeText={setPasswordConfirm}
         isPassword={true}
-        //password Input 컨포넌트에 isPassword를 입력하면 비밀번호가 특수문자로 나타나게 할 수 있다.
+        /*password Input 컨포넌트에 isPassword를 입력하면 비밀번호가 특수문자로 나타나게 할 수 있다.*/
         onSubmitEditing={_handleSignupBtnPress}
         />
         <Button title="회원가입" onPress ={_handleSignupBtnPress}/>

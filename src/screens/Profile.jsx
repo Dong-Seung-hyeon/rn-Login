@@ -9,6 +9,7 @@ const Container = styled.View`
 
 const Profile = ({navigation, route}) => {
     console.log(route.params);
+    /*전송된 유저의 정보를 console.log를 이용하여 확인하도록 하였다.*/
     return (
         <Container>
             <Button title="로그아웃" onPress={() => navigation.navigate('Signin')}/>
