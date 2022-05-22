@@ -11,8 +11,9 @@ import { signin } from '../firebase';
 import {validateEmail, removeWhitespace} from '../utils';
 /* untils.jsx의 이메일유효성검사와 공백제거 함수를 불러와 사용 */
 import { Alert } from 'react-native';
-import {UserContext} from '../contexts';
-/* 사용자가 로그인에 성공하면 UserContext의 User를 로그인한 사용자의 정보로 업데이트하도록 코드를추가하기 위해서 사용하는것이다. */
+import {UserContext, ProgressContext} from '../contexts';
+/* 사용자가 로그인에 성공하면 UserContext의 User를 로그인한 사용자의 정보로 업데이트하도록 코드를추가하기 위해서 사용하는것이다. 
+그리고 ProgressProvider의 Spinner를 이용해서 로그인을 시작할때 start를 호출하고 끝났을때 stop을 호출해서 로그인을 시도하는동안 spinner components가 화면에 나타나도록 하기위해 사용하였다. */
 
 const Container = styled.View`
     flex: 1;
@@ -34,6 +35,7 @@ const Signin = ({navigation}) => {
     /*theme.jsx를 사용하기위해서 useContext와 ThemeContext를 컨포넌트를 해주고 사용해야한다.*/
     const {setUser} = useContext(UserContext);
     /* useContext를 이용하여 User정보를 업데이트할 수 있는 setUser를 가져왔다. */
+    const { spinner } = useContext(ProgressContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -69,6 +71,7 @@ const Signin = ({navigation}) => {
         같은함수를 바라보도록 handleSigninBtnPress라는 함수를 만들어서 적용해주었다.
         그리고 async, await를 이용해주었다.*/
         try {
+            spinner.start();
             const user = await signin({email, password});
             console.log(user);
             setUser(user);
@@ -76,6 +79,9 @@ const Signin = ({navigation}) => {
         } catch (e) {
             Alert.alert('아이디와 비밀번호를 확인해주십시오.', e.message);
             /*로그인에 실패하면 alert을 이용하여 에러메시지를 출력하도록 하였습니다.*/
+        } finally {
+            spinner.stop();
+            /* Spinner Components는 로그인의 시도여부에 상관없이 사라져야하므로 finally에서 stop을 호출하였다. */
         }
         console.log('signin');
     }
