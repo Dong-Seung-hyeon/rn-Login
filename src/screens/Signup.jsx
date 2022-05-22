@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 {/*Input 컨포넌트의 변화하는 값을 관리하기 위해서 useState를 이용해준다.
 useRef를 이용하여 onSubmitEditing을 작성하기위해 useRef를 사용해준다.*/}
 import styled from 'styled-components/native';
@@ -9,6 +9,8 @@ import { signup } from '../firebase';
 import { Alert } from 'react-native';
 import {validateEmail, removeWhitespace} from '../utils';
 /* untils.jsx의 이메일유효성검사와 공백제거 함수를 불러와 사용 */
+import {UserContext} from '../contexts';
+/* 사용자가 로그인에 성공하면 UserContext의 User를 로그인한 사용자의 정보로 업데이트하도록 코드를추가하기 위해서 사용하는것이다. */
 
 const Container = styled.View`
     flex: 1;
@@ -19,6 +21,7 @@ const Container = styled.View`
 `;
 
 const Signup = ({navigation}) => {
+    const {setUser} = useContext(UserContext); 
     const [name, setName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
@@ -71,7 +74,7 @@ const Signup = ({navigation}) => {
         try {
             const user = await signup({name, email, password, phoneNumber});
             Alert.alert('회원가입이 완료되었습니다.')
-            navigation.navigate('Signin')
+            setUser(user);
         } catch (e) {
             Alert.alert('회원가입 오류', e.message);
         }
