@@ -3,8 +3,9 @@ import React, {useContext} from 'react';
 import {ThemeContext} from 'styled-components/native'
 /* theme style을 이용하기위해서 ThemeContext를 사용하였다. */
 import { createStackNavigator } from '@react-navigation/stack';
-import { Profile, ChannelList, ChannelCreation, Channel } from '../screens';
-/* 화면은 profile화면만 이용하려고 한다. */
+import { ChannelList, ChannelCreation, Channel } from '../screens';
+/* 화면은 ChannelList, ChannelCreation, Channel 화면만 이용하려고 한다. */
+import Home from './Home'
 
 const Stack = createStackNavigator();
 
@@ -21,8 +22,7 @@ const Main = () => {
             /* 뒤로가기버튼에 타이틀은 감추도록하였다. */
             cardStyle: {backgroundColor: theme.backgroundColor},
         }}>
-            {/* <Stack.Screen name="Profile" component={Profile} /> */}
-            <Stack.Screen name="ChannelList" component={ChannelList} />
+            <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="ChannelCreation" component={ChannelCreation} />
             <Stack.Screen name="Channel" component={Channel} />
         </Stack.Navigator>

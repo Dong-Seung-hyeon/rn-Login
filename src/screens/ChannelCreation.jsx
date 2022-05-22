@@ -15,7 +15,7 @@ const ChannelCreation = ({navigation}) => {
     return(
         <Container>
             <StyledText>Channel Creation</StyledText>
-            <Button title="Create" onPress={() => navigation.replace('Channel')} />
+            <Button title="Create" onPress={() => navigation.replace('Channel')/* navigate함수 대신 replace함수를 이용해 화면을 이동한다. */} />
         </Container>
     );
 };
