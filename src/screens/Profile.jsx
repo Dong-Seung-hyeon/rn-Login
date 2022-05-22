@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
-import {UserContext} from 'styled-components/native'; 
+import {UserContext} from '../contexts';
+import styled from 'styled-components/native';
 import {Button, Image} from '../components';
 
 const Container = styled.View`
