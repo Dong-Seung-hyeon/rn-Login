@@ -1,16 +1,15 @@
 import React, {useContext, useEffect} from 'react';
 import {ThemeContext} from 'styled-components/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {ChannelList, Profile, MainDog} from '../screens';
+import {ChannelList,Channel, Profile, MainDog} from '../screens';
 import { MaterialIcons } from '@expo/vector-icons';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 /* getFocusedRouteNameFromRoute를 이용하면 현재 선택된 화면의 이름을 알 수 있다. */
 
 //icons
 import { FontAwesome } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
+
 
 const TabIcon = ({name, focused}) => {
     const theme = useContext(ThemeContext);
@@ -28,30 +27,48 @@ const Home = ({navigation, route}) => {
         })
     });
     return (
-        <Tab.Navigator>
+        <Tab.Navigator 
+        tabBarOptions={{
+            showLabel: false,
+        }}>
             <Tab.Screen 
-            name="List" 
-            component={ChannelList} 
-            options={{
-                tabBarIcon: ({focused}) => 
-                TabIcon({name: focused ? 'chat-bubble' : 'chat-bubble-outline', focused,
-            }),
-            }} />
-            <Tab.Screen 
-            name="가정분양" 
+            name="기관분양" 
             component={MainDog} 
             options={{tabBarIcon: () => (
                 <FontAwesome name="institution" size={24} color="black" />
-              ),
-              }}/>
+            ), headerShown: false
+            }}
+            />
             <Tab.Screen 
-            name="Profile" 
+            name="가정분양" 
+            component={Channel} 
+            options={{tabBarIcon: () => (
+                <Ionicons 
+                name='ios-home'
+                size={35}
+                />
+            ), headerShown: false
+            }}/>
+            <Tab.Screen 
+            name="업로드" 
+            component={ChannelList} 
+            options={{tabBarIcon: () => (
+                <Ionicons 
+        name='ios-paw'
+        size={35}
+        />
+            ),headerShown: false
+            }}/>
+            <Tab.Screen 
+            name="프로필" 
             component={Profile}
-            options={{
-                tabBarIcon: ({focused}) => 
-                TabIcon({name: focused ? 'person' : 'person-outline', focused,
-            }),
-            }} />
+            options={{tabBarIcon: () => (
+                <Ionicons 
+        name='ios-person'
+        size={35}
+        />
+            ),headerShown: false
+            }}/>
         </Tab.Navigator>
     );
 };

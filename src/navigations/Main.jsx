@@ -15,7 +15,7 @@ const Main = () => {
     return(
         <Stack.Navigator
         screenOptions={{
-            headerTitleAlign: 'center',
+            // headerTitleAlign: 'center',
             headerTintColor: theme.text,
             /* headerTintColor는 theme에 적용되어있는 text를 이용하였다. */
             headerBackTitleVisible: false,
@@ -23,7 +23,7 @@ const Main = () => {
             cardStyle: {backgroundColor: theme.backgroundColor},
         }}>
             <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="가정분양" component={MainDog} />
+            <Stack.Screen name="기관분양" component={MainDog} />
             <Stack.Screen name="상세페이지" component={MainDetail} />
             <Stack.Screen name="ChannelCreation" component={ChannelCreation} />
             <Stack.Screen name="Channel" component={Channel} />

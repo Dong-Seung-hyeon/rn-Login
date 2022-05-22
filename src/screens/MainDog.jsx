@@ -58,7 +58,7 @@ const MainDog = () => {
     }, []);
   
     const handlePressItem = (item)=>{
-      navigation.navigate('Detail', {item})
+      navigation.navigate('MainDetail', {item})
   
     }
     return (

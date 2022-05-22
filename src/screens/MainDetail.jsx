@@ -18,7 +18,7 @@ import { Route } from 'react-router-dom';
 //ionicons 모듈사용
 
 const MainDetail = (props) => {
-  const Detail = ({navigation, Route})
+  const MainDetail = ({navigation, Route})
   const navigation = useNavigation();
   
   const item = props.route.params.item
