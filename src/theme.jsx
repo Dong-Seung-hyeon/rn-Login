@@ -9,7 +9,7 @@ const Colors = {
   };
 
   export const theme = {
-    background: Colors.main,
+    background: Colors.white,
     text: Colors.black,
     errorText: Colors.red,
 

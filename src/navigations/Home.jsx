@@ -1,8 +1,10 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {ThemeContext} from 'styled-components/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {ChannelList, Profile} from '../screens';
 import { MaterialIcons } from '@expo/vector-icons';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+/* getFocusedRouteNameFromRoute를 이용하면 현재 선택된 화면의 이름을 알 수 있다. */
 
 const TabIcon = ({name, focused}) => {
     const theme = useContext(ThemeContext);
@@ -11,7 +13,14 @@ const TabIcon = ({name, focused}) => {
 
 const Tab = createBottomTabNavigator();
 
-const Home = () => {
+const Home = ({navigation, route}) => {
+    /* screen component에 component로 사용되고있기 때문에 homenavigation을 props해도 navigation과 route가 전달됩니다. */
+    useEffect(() => {
+        const screenName = getFocusedRouteNameFromRoute(route) || 'List'
+        navigation.setOptions({
+            headerTitle: screenName,
+        })
+    });
     return (
         <Tab.Navigator>
             <Tab.Screen 
