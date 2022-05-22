@@ -12,7 +12,7 @@ const App = () => {
     <ThemeProvider theme={theme} >
         <ProgressProvider>
         <UserProvider>
-        <StatusBar backgroundColor={theme.background} barStyle="dark-content"/>
+        <StatusBar backgroundColor={theme.bar} barStyle="dark-content"/>
         <Navigation /> 
         </UserProvider>
         </ProgressProvider>

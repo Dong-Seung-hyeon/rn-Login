@@ -17,6 +17,7 @@ const ChannelList = ({navigation}) => {
             <StyledText>Channel List</StyledText>
             <Button title="Create" onPress={() => navigation.navigate('ChannelCreation')} />
             <Button title="Channel" onPress={() => navigation.navigate('Channel')} />
+            <Button title="가정분양" onPress={() => navigation.navigate('MainDog')} />
         </Container>
     );
 };

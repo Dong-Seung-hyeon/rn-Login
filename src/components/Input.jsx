@@ -25,7 +25,7 @@ const StyledInput = styled.TextInput.attrs(({theme}) => ({
     이렇게 하면 각 래퍼가 중첩된 사용 을 재정의 할 수 있습니다..attrs, 스타일시트에서 나중에 정의된 CSS 속성이 이전 선언을 재정의하는 방식과 유사합니다.*/
     placeholderTextColor: theme.inputPlaceholder,
 }))`
-    background-color: ${({theme}) => theme.inputBackground};
+    background-color: ${({theme, editable}) => editable ? theme.inputBackground : theme.inputDisabled};
     /*Input 컨포넌트의 배경색과 그외의 다른색들도 theme의 정의해놓은 색을 이용하였다.*/
     color: ${({theme}) => theme.text};
     padding: 20px 10px;
@@ -51,6 +51,7 @@ const Input = forwardRef ( /*Input부분에 forwardRef를 전체적으로 넣어
     안드로이드 전용 => (none, previous)가 있고, ios 전용 => (default, emergency-call, google, join, route, yahoo)등이 있다. */
     maxLength, /*너무 긴 text가 입력되지 않도록 하는 코드이다.*/
     isPassword,
+    disabled,
 }, 
 ref /*주의해야할 점은 ref는 함수의 두번째 파라미터로 전달된다는 점이다.*/
 ) => {
@@ -85,6 +86,7 @@ ref /*주의해야할 점은 ref는 함수의 두번째 파라미터로 전달�
         /*isFocused의 값은 onFocus가 호출이 되었을때 변경되도록 수정해주었다.*/
         secureTextEntry={isPassword}
         /*입력되는 비밀번호가 노출되는 문제를 해결하기위해 secureTextEntry라는 값을 설정해주었다.*/
+        editable={!disabled}
         />
         </Container>
     );
@@ -107,6 +109,7 @@ Input.propTypes = { /*props로 전달되는 값들은 PropTypes를 이용하여 
     returnKeyType: PropTypes.oneOf(['done', 'next']), /*returnKeyType은 string이긴 하지만, oneOf를 이용하여 done이나 next중에 하나만 허용하기로 한다.*/
     maxLength: PropTypes.number,
     isPassword: PropTypes.bool,
+    disabled: PropTypes.bool,
 };
 
 export default Input;
