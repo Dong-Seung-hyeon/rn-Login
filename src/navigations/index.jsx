@@ -14,7 +14,7 @@ const Navigation = () => {
 
     return (
     <NavigationContainer>
-        {user.uid ? <Main/> : <Auth />}
+        {!user.uid ? <Main/> : <Auth />}
         {inProgress && <Spinner />/* Spinner Components는 inProgress가 true일때만 렌더링되도록 수정하였다. */}
     </NavigationContainer>);
     /* user에 uid존재 여부에따라 Main navigation이나 Auth navigation 둘중 하나가 이용되도록 설정해주었다. */

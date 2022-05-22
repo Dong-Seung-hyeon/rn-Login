@@ -11,11 +11,11 @@ const StyledText = styled.Text`
     font-size: 30px;
 `;
 
-const ChannelCreation = () => {
+const ChannelCreation = ({navigation}) => {
     return(
         <Container>
             <StyledText>Channel Creation</StyledText>
-            <Button title="Create" onPress={() => {}} />
+            <Button title="Create" onPress={() => navigation.replace('Channel')} />
         </Container>
     );
 };

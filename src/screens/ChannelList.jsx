@@ -11,12 +11,12 @@ const StyledText = styled.Text`
     font-size: 30px;
 `;
 
-const ChannelList = () => {
+const ChannelList = ({navigation}) => {
     return(
         <Container>
             <StyledText>Channel List</StyledText>
-            <Button title="Create" onPress={() => {}} />
-            <Button title="Channel" onPress={() => {}} />
+            <Button title="Create" onPress={() => navigation.navigate('ChannelCreation')} />
+            <Button title="Channel" onPress={() => navigation.navigate('Channel')} />
         </Container>
     );
 };
