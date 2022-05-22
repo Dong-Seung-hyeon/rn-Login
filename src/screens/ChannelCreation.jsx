@@ -4,7 +4,7 @@ import {Button} from '../components';
 
 const Container = styled.View`
     flex: 1;
-    background-color: ${({theme}) => theme.background};
+    background-color: white;
 `;
 
 const StyledText = styled.Text`
