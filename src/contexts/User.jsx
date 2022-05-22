@@ -13,7 +13,7 @@ const UserProvider = ({children}) => {
         setUserInfo({uid});
     };
     const value = { user, setUser };
-    return <UserContext.Provider value={value}>{childreb}</UserContext.Provider>;
+    return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
 export {UserContext, UserProvider};
