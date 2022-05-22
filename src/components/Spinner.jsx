@@ -14,3 +14,19 @@ const Container = styled.View`
     justify-content: center;
     background-color: ${({theme}) => theme.spinnerBackground};
 `;
+
+/* React Native에서 제공하는 ActivityIndicator Components를 이용하면 쉽게 Spinner Components를 구성할 수 있습니다. */
+const Indicator = styled.ActivityIndicator.attrs(({theme}) => ({
+    size: 'large',
+    color: theme.spinnerIndicator
+}))``;
+
+const Spinner = () => {
+    return (
+        <Container>
+            <Indicator />
+        </Container>
+    )
+}
+
+export default Spinner;
