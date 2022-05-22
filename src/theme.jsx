@@ -20,6 +20,9 @@ const Colors = {
 
   // Image
   imgBackground: Colors.grey_0,
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
 
   // Input
   inputBackground: Colors.white,

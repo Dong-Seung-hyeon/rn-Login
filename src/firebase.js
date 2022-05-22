@@ -16,7 +16,7 @@ export const signin = async ({ email, password }) => {
 export const signup = async ({ name, email, password, phoneNumber }) => {
   /*async, await를 이용하고, 파라미터로는 name, email, password, phoneNumber를 가지고있는 객체를 전달받도록 하였다.*/
   const { user } = await Auth.createUserWithEmailAndPassword(email, password);
-  // await user.updatePhoneNumber({ phoneCredential: phoneNumber });
-  await user.updateProfile({ displayName: name, phoneNumber });
+  await user.updateCurrentUser({ user: phoneNumber });
+  await user.updateProfile({ displayName: name });
   return user;
 };
