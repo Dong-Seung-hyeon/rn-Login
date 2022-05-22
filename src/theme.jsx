@@ -29,4 +29,8 @@ const Colors = {
   inputLabel: Colors.grey_1,
   inputPlaceholder: Colors.grey_1,
   inputBorder: Colors.grey_1,
+
+  // Spinner
+  spinnerBackground: Colors.black,
+  spinnerIndicator: Colors.white,
   };

@@ -70,6 +70,7 @@ const Signin = ({navigation}) => {
         그리고 async, await를 이용해주었다.*/
         try {
             const user = await signin({email, password});
+            console.log(user);
             setUser(user);
             /*로그인에 성공하면 setUser를 이용해서 사용자의 정보로 업데이트 하도록 하였다.*/
         } catch (e) {
