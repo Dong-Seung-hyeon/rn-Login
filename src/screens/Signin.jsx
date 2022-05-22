@@ -11,6 +11,8 @@ import { signin } from '../firebase';
 import {validateEmail, removeWhitespace} from '../utils';
 /* untils.jsx의 이메일유효성검사와 공백제거 함수를 불러와 사용 */
 import { Alert } from 'react-native';
+import {UserContext} from '../contexts';
+/* 사용자가 로그인에 성공하면 UserContext의 User를 로그인한 사용자의 정보로 업데이트하도록 코드를추가하기 위해서 사용하는것이다. */
 
 const Container = styled.View`
     flex: 1;
@@ -30,6 +32,8 @@ const Signin = ({navigation}) => {
     /*헤더라인이 없으면 노치디자인에서 문제가 발생하므로 노치디자인을 해결하는 코드이다.*/
     const theme = useContext(ThemeContext);
     /*theme.jsx를 사용하기위해서 useContext와 ThemeContext를 컨포넌트를 해주고 사용해야한다.*/
+    const {setUser} = useContext(UserContext);
+    /* useContext를 이용하여 User정보를 업데이트할 수 있는 setUser를 가져왔다. */
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -66,8 +70,8 @@ const Signin = ({navigation}) => {
         그리고 async, await를 이용해주었다.*/
         try {
             const user = await signin({email, password});
-            navigation.navigate('Profile', {user});
-            /*로그인에 성공하면 프로필화면으로 이동을하도록 하였고, 프로필화면에 사용자의 정보도 함께 전송되도록 설정하였다.*/
+            setUser(user);
+            /*로그인에 성공하면 setUser를 이용해서 사용자의 정보로 업데이트 하도록 하였다.*/
         } catch (e) {
             Alert.alert('아이디와 비밀번호를 확인해주십시오.', e.message);
             /*로그인에 실패하면 alert을 이용하여 에러메시지를 출력하도록 하였습니다.*/
