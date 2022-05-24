@@ -4,8 +4,5 @@ import Profile from './Profile';
 import Channel from './Channel';
 import ChannelList from './ChannelList';
 import ChannelCreation from './ChannelCreation';
-import MainDog from './MainDog';
-import MainDetail from './MainDetail';
 
-
-export {Signin, Signup, Profile, Channel, ChannelCreation, ChannelList, MainDog, MainDetail};
+export {Signin, Signup, Profile, Channel, ChannelCreation, ChannelList};
