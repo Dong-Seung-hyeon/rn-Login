@@ -27,10 +27,32 @@ const ChannelCreation = ({navigation}) => {
 
     const refDesc = useRef(null);
     /* 포커스 이동을 위해 refDesc도 만들어주었다. */
+    
+    const _handleTitleChange = title => { 
+        /* 제목이 변경될때 호출할 함수를 만들어주었다. */
+        setTitle(title); /* title상태변수를 업데이트 */
+        setErrorMessage(title.trim() ? '' : 'Please enter the title')
+        /* title의 길이에 따라 에러메시지 상태변수를 업데이트 하도록 하였다. */
+    }
+    
+    const _handleDescChange = desc => {
+        /* 설명이 변경되었을때 호출할 함수도 만들어주었다. */
+        setDesc(desc);
+        setErrorMessage(title.trim() ? '' : 'Please enter the title')
+        /* title의 길이에 따라 에러메시지 상태변수를 업데이트 하도록 하였다. */
+    }
 
     return(
         <Container>
-            <Button title="Create" onPress={() => navigation.replace('Channel')/* navigate함수 대신 replace함수를 이용해 화면을 이동한다. */} />
+            <Input label="Title" value={title} onChange={_handleTitleChange} /* 생성된 함수를 input 컨포넌트에 전달 *//>
+            <Input ref={refDesc} label="Description" value={desc} onChange={_handleDescChange}/>
+            {/* Input 컨포넌트를 이용하여 제목과 설명을 받도록 하였다. */}
+            <ErrorMessage message={errorMessage}/>
+            {/* ErrorMessage 컨포넌트도 사용해주었다. */}
+            <Button title="Create" 
+            disabled={disabled}
+            /* Button에 disabled를 전달 */
+            onPress={() => navigation.replace('Channel')/* navigate함수 대신 replace함수를 이용해 화면을 이동한다. */} />
         </Container>
     );
 };
