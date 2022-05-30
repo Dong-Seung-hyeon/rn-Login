@@ -1,6 +1,10 @@
-import React from 'react';
+import React, {useState, useRef, useEffect} from 'react';
+/* Channel생성화면에서 필요한 useState, useRef, useEffect를 Import하였다. */
 import styled from 'styled-components/native'
-import {Button} from '../components';
+import {Button, Input, ErrorMessage} from '../components';
+/* Input, ErrorMessage 컨포넌트도 import 하였다. */
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+/* KeyboardAwareScrollView도 사용하였다. */
 
 const Container = styled.View`
     flex: 1;
