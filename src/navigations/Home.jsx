@@ -19,6 +19,12 @@ const Home = ({navigation, route}) => {
         const screenName = getFocusedRouteNameFromRoute(route) || 'List'
         navigation.setOptions({
             headerTitle: screenName,
+            headerRight: () => screenName === 'List' && (
+                /* 화면의 이름이 List일때만 나타나도록 하였다. */
+                <MaterialIcons name="add" size={26} style={{margin: 10}}
+                onPress={() => navigation.navigate('ChannelCreation')}
+                />
+            )
         })
     });
     return (

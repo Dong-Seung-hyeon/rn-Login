@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 import config from '../firebase.json';
+import 'firebase/firestore';
 
 const app = !firebase.apps.length
   ? firebase.initializeApp(config)
@@ -24,4 +25,28 @@ export const signup = async ({ name, email, password, phoneNumber }) => {
 export const getCurrentUser = () => {
   const { uid, displayName, email, photoURL } = Auth.currentUser;
   return { uid, name: displayName, email, photo: photoURL };
+};
+
+export const signout = async () => {
+  await Auth.signOut();
+  return {};
+};
+
+const DB = firebase.firestore();
+
+export const createChannel = async ({ title, desc }) => {
+  /* 함수의 이름은 createChannel이라고 해주었고, 파라미터로는 title과 description을 전달받도록 하였다. */
+  const newChannelRef = DB.collection('channels').doc();
+  /* 컬렉션중에서 이름이 channels라는것을 이용한다. 아무것도 넘기지 않고 document함수를 호출하면 아이디가 자동으로 생성된다. */
+  const id = newChannelRef.id;
+  const newChannel = {
+    /* 자동으로 생성된 id와 전달된 title 그리고 description, createdAt을 현재 만들어진 document에 업데이트하였다. */
+    id,
+    title,
+    description: desc,
+    createdAt: Date.now(),
+  };
+  await newChannelRef.set(newChannel);
+  return id;
+  /* 생성된 document 아이디를 반환하였다. */
 };
