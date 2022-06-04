@@ -1,19 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
-import { Button } from '../components';
 import { MaterialIcons } from '@expo/vector-icons';
+import { DB } from '../firebase';
+import moment from 'moment';
 
-const channels = []; /* channels라는 배열을 만들었다 */
-for (let i = 0; i < 1000; i++) {
-  /* 테스트를 위해 데이터를 1000개정도 만들었다. */
-  channels.push({
-    id: i,
-    title: `title: ${i}`,
-    description: `desc: ${i}`,
-    createdAt: i,
-  });
-}
+const getDateOrTime = (ts) => {
+  const now = moment().startOf('day');
+  const target = moment(ts).startOf('day');
+  return moment(ts).format(now.diff(target, 'day') > 0 ? 'MM/DD' : 'HH:mm');
+};
 
 const ItemContainer = styled.TouchableOpacity`
   /* ItemComponent를 감싸기 위해 ItemContainer를 만들어주었다. 그리고 항목을 클릭해서 채널로 이동해야하니 TouchableOpacity를 사용하였다. */
@@ -61,11 +57,11 @@ const Item = React.memo(
 
     return (
       <ItemContainer>
-        <ItemTextContainer>
+        <ItemTextContainer onPress={() => onPress({ id, title })}>
           <ItemTitle>{title}</ItemTitle>
           <ItemDesc>{description}</ItemDesc>
         </ItemTextContainer>
-        <ItemTime>{createdAt}</ItemTime>
+        <ItemTime>{getDateOrTime(createdAt)}</ItemTime>
         <ItemIcon />
       </ItemContainer>
     );
@@ -77,16 +73,33 @@ const Container = styled.View`
   background-color: white;
 `;
 
-const StyledText = styled.Text`
-  font-size: 30px;
-`;
-
 const ChannelList = ({ navigation }) => {
+  const [channels, setChannels] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = DB.collection('channels')
+      .orderBy('createdAt', 'desc')
+      .onSnapshot((snapshot) => {
+        const list = [];
+        snapshot.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setChannels(list);
+      });
+    return () => unsubscribe();
+    /* return에 함수를 전달해서 해지해주어야한다. */
+  }, []);
+
   return (
     <Container>
       <FlatList /* FlatList에는 렌더링할 데이터를 가지고있는 배열을 data에 전달하고 renderItem에는 항목을 렌더링하기위해 컨포넌트를 반환하는 함수를 전달해야한다. */
         data={channels}
-        renderItem={({ item }) => <Item item={item} />}
+        renderItem={({ item }) => (
+          <Item
+            item={item}
+            onPress={(params) => navigation.navigate('Channel', params)}
+          />
+        )}
         /* renderItem에 설정된 함수의 파라미터로 전달되는 내용에서 item이라는 프로퍼티에 데이터에 설정한 목록의 항목이 전달된다. 이 item을 item props로 전달했다. */
         keyExtractor={(item) => item['id'].toString()}
         /* flatlist에 keyExtractor를 이용하면 쉽게 key를 지정할 수 있다. 

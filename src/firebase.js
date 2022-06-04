@@ -32,7 +32,7 @@ export const signout = async () => {
   return {};
 };
 
-const DB = firebase.firestore();
+export const DB = firebase.firestore();
 
 export const createChannel = async ({ title, desc }) => {
   /* 함수의 이름은 createChannel이라고 해주었고, 파라미터로는 title과 description을 전달받도록 하였다. */
