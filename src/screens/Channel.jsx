@@ -1,17 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import styled from 'styled-components/native';
 import { createMessage, getCurrentUser, DB } from '../firebase';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, Send } from 'react-native-gifted-chat';
 import { Alert } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const Container = styled.View`
   flex: 1;
   background-color: white;
 `;
 
-const Channel = ({ route }) => {
+const SendIcon = styled(MaterialIcons).attrs(({ theme, text }) => ({
+  name: 'send',
+  size: 24,
+  color: text ? theme.sendBtnActive : theme.sendBtnInactive,
+}))``;
+
+const SendButton = (props) => {
+  console.log(props);
+  return (
+    <Send
+      {...props}
+      containerStyle={{
+        width: 44,
+        height: 44,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 4,
+      }}
+      disabled={!props.text}
+    >
+      <SendIcon text={props.text} />
+    </Send>
+  );
+};
+
+const Channel = ({ navigation, route }) => {
   const [messages, setMessages] = useState([]);
   const { uid, name, photo } = getCurrentUser();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: route.params.title || 'Channel',
+    });
+  }, []);
 
   useEffect(() => {
     const unsubscribe = DB.collection('channels')
@@ -44,6 +76,11 @@ const Channel = ({ route }) => {
         messages={messages}
         user={{ _id: uid, name, avatar: photo }}
         onSend={_handleMessageSend}
+        renderSend={(props) => <SendButton {...props} />}
+        scrollToBottom={true}
+        renderUsernameOnMessage={true}
+        alwaysShowSend={true}
+        multiline={false}
       />
     </Container>
   );

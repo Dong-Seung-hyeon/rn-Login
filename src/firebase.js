@@ -9,7 +9,7 @@ const Auth = app.auth();
 
 export const signin = async ({ email, password }) => {
   /*async, await를 이용하고, 파라미터로는 email, password를 가지고있는 객체를 전달받도록 하였다.*/
-  const { user } = await Auth.signInWithEmailAndPassword(auth, email, password);
+  const { user } = await Auth.signInWithEmailAndPassword(email, password);
   /*반환되는 값중에는 user만 이용하도록 하였다.*/
   return user;
 };
@@ -34,11 +34,7 @@ const uploadImage = async (uri) => {
 
 export const signup = async ({ name, email, password, phoneNumber }) => {
   /*async, await를 이용하고, 파라미터로는 name, email, password, phoneNumber를 가지고있는 객체를 전달받도록 하였다.*/
-  const { user } = await Auth.createUserWithEmailAndPassword(
-    auth,
-    email,
-    password
-  );
+  const { user } = await Auth.createUserWithEmailAndPassword(email, password);
   // await user.updateCurrentUser({ user: phoneNumber });
   await user.updateProfile({ displayName: name, phoneNumber });
   return user;
@@ -82,7 +78,7 @@ export const createChannel = async ({ title, desc }) => {
 export const createMessage = async ({ channelId, message }) => {
   return await DB.collection('channels')
     .doc(channelId)
-    .collection('message')
+    .collection('messages')
     .doc(message._id)
     .set({
       ...message,
