@@ -9,14 +9,36 @@ const Auth = app.auth();
 
 export const signin = async ({ email, password }) => {
   /*async, await를 이용하고, 파라미터로는 email, password를 가지고있는 객체를 전달받도록 하였다.*/
-  const { user } = await Auth.signInWithEmailAndPassword(email, password);
+  const { user } = await Auth.signInWithEmailAndPassword(auth, email, password);
   /*반환되는 값중에는 user만 이용하도록 하였다.*/
   return user;
 };
 
+const uploadImage = async (uri) => {
+  if (uri.startsWith('https')) {
+    return uri;
+  }
+
+  const response = await fetch(uri);
+  const blob = await response.blob();
+
+  const { uid } = auth.currentUser;
+  const storage = getStorage(app);
+  const storageRef = ref(storage, `/profile/${uid}/photo.png`);
+  await uploadBytes(storageRef, blob, {
+    contentType: 'image/png',
+  });
+
+  return await getDownloadURL(storageRef);
+};
+
 export const signup = async ({ name, email, password, phoneNumber }) => {
   /*async, await를 이용하고, 파라미터로는 name, email, password, phoneNumber를 가지고있는 객체를 전달받도록 하였다.*/
-  const { user } = await Auth.createUserWithEmailAndPassword(email, password);
+  const { user } = await Auth.createUserWithEmailAndPassword(
+    auth,
+    email,
+    password
+  );
   // await user.updateCurrentUser({ user: phoneNumber });
   await user.updateProfile({ displayName: name, phoneNumber });
   return user;
@@ -25,6 +47,12 @@ export const signup = async ({ name, email, password, phoneNumber }) => {
 export const getCurrentUser = () => {
   const { uid, displayName, email, photoURL } = Auth.currentUser;
   return { uid, name: displayName, email, photo: photoURL };
+};
+
+export const updateUserInfo = async (photo) => {
+  const photoURL = await uploadImage(photo);
+  await updateProfile(auth.currentUser, { photoURL });
+  return photoURL;
 };
 
 export const signout = async () => {
@@ -49,4 +77,15 @@ export const createChannel = async ({ title, desc }) => {
   await newChannelRef.set(newChannel);
   return id;
   /* 생성된 document 아이디를 반환하였다. */
+};
+
+export const createMessage = async ({ channelId, message }) => {
+  return await DB.collection('channels')
+    .doc(channelId)
+    .collection('message')
+    .doc(message._id)
+    .set({
+      ...message,
+      createdAt: Date.now(),
+    });
 };
